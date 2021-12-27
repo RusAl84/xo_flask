@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+from rules import check_winer
 
 app = Flask(__name__)
 CORS(app)
@@ -59,17 +60,24 @@ def make_turn():  # put application's code here
             current_turn = "x"  # ходит креcтик
         else:
             current_turn = "0"  # ходит нолик
-        if current_turn == json_data["who"]:
+        if current_turn == json_data["who"] or True:  # !!!!!!!!!!!!!!!!11
             x = json_data["turn"][0]
             y = json_data["turn"][1]
             if games[seed_str][x][y] == ' ':  # проверяем можно ли в эту клетку ходить?
-                games[seed_str][x][y] = json_data["who"]
-                if json_data["who"]=="x":
+                games[seed_str][x][y] = json_data["who"]  # делаем ход
+                if json_data["who"] == "x":
                     games[seed_str][3][0] += 1
                     print(games)
                 else:
                     games[seed_str][3][1] += 1
                     print(games)
+                winer = check_winer(games[seed_str])
+                if len(winer) > 0:
+                    str1 = "Победил " + winer
+                    print(str1)
+                    del games[seed_str]
+                    return (str1)
+
                 return jsonify(games[seed_str])
             else:
                 str1 = "в эту клетку ходить нельзя"

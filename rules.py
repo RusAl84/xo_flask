@@ -1,12 +1,4 @@
-def main(game_template):
-    game_template = [
-        ['0', '0', 'x'],
-        ['x', 'x', '0'],
-        ['x', 'x', '0'],
-        [0, -1]  # 0 - сколько ходов "x", 1 - "0"; если -1 то игрок не определен
-        # [1,0] - ходит нолик
-        # [1,1] - ходит крестик
-    ]
+def check_winer(game_template):
     winner = ""
     # проверяем строки
     for i in range(3):
@@ -58,7 +50,12 @@ def main(game_template):
             winner = "х"
         if count_0 == 3:
             winner = "0"
-    return(winner)
+    return winner
 
 if __name__ == '__main__':
-    print(main("d"))
+    game_template = [
+        ['x', 'x', 'x'],
+        ['0', ' ', '0'],
+        ['x', ' ', '0'],
+    ]
+    print(check_winer(game_template))
